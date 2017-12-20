@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server", "MudServer\Mud.Server.csproj", "{50BB7130-F5FF-4939-9FBC-0E3697C4A7CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mud", "Mud\Mud.csproj", "{50BB7130-F5FF-4939-9FBC-0E3697C4A7CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Data", "Mud.Data\Mud.Data.csproj", "{42366095-F5AB-4CDC-9E9D-AAC9BF3D97AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mud.Data", "Mud.Data\Mud.Data.csproj", "{42366095-F5AB-4CDC-9E9D-AAC9BF3D97AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.DataAccess", "Mud.DataAccess\Mud.DataAccess.csproj", "{F9C76B82-DF65-4281-90D6-BB9DA6202E63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mud.DataAccess", "Mud.DataAccess\Mud.DataAccess.csproj", "{F9C76B82-DF65-4281-90D6-BB9DA6202E63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server", "Mud.Server\Mud.Server.csproj", "{FB889027-687C-4B6C-BAB2-577A42092D3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Client", "Mud.Client\Mud.Client.csproj", "{B923C09C-E0B8-464F-9E68-220F95E641C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{F9C76B82-DF65-4281-90D6-BB9DA6202E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9C76B82-DF65-4281-90D6-BB9DA6202E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9C76B82-DF65-4281-90D6-BB9DA6202E63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB889027-687C-4B6C-BAB2-577A42092D3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB889027-687C-4B6C-BAB2-577A42092D3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB889027-687C-4B6C-BAB2-577A42092D3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB889027-687C-4B6C-BAB2-577A42092D3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B923C09C-E0B8-464F-9E68-220F95E641C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B923C09C-E0B8-464F-9E68-220F95E641C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B923C09C-E0B8-464F-9E68-220F95E641C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B923C09C-E0B8-464F-9E68-220F95E641C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

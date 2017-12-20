@@ -2,7 +2,7 @@
 using Mud.Data.Interfaces;
 using Mud.Data.Persistance;
 
-namespace Mud.Data
+namespace Mud.Data.Character
 {
     public class Character : ModelWithIdentity
     {
@@ -12,8 +12,9 @@ namespace Mud.Data
         public IRace Race { get; set; }
         public int CombatExperience { get; set; }
         public int QuestExperience { get; set; }
-        public List<IItem> Inventory { get; set; }
-        public List<ISkill> Skills { get; set; }
+        public List<Item> Inventory { get; set; }
+        public List<Skill> Skills { get; set; }
         public List<IStat> Stats { get; set; }
+        public List<Commands.Commands> CommandsAvailiable = new List<Commands.Commands>{Commands.Commands.Login};
     }
 }

@@ -5,11 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Marten" Version="2.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Mud.Client\Mud.Client.csproj" />
+    <ProjectReference Include="..\Mud.DataAccess\Mud.DataAccess.csproj" />
+    <ProjectReference Include="..\Mud.Data\Mud.Data.csproj" />
   </ItemGroup>
 
 </Project>

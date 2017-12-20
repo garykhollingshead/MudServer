@@ -1,10 +1,10 @@
-﻿using System.Net.Sockets;
+﻿using Mud.Client;
 
 namespace Mud.Data
 {
     public class User
     {
-        public TcpClient Connection { get; set; }
-        public Character Character { get; set; }
+        public MudClient Connection { get; set; }
+        public Character.Character Character { get; set; }
     }
 }

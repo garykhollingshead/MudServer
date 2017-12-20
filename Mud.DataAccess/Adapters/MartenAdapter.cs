@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Marten;
 using Mud.Data;
+using Mud.Data.Character;
 using Mud.Data.Configuration;
 using Mud.Data.Persistance;
 using Mud.DataAccess.IdGenerators;
