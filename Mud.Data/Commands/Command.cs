@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Mud.Data.Commands
 {
-    public interface ICommand
+    public class Command
     {
-        string CommandString { get; set; }
-        Commands CommandType { get; set; }
+        public List<string> CommandStrings { get; set; }
     }
 }

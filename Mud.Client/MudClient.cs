@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -11,7 +12,7 @@ namespace Mud.Client
     {
         private TcpClient Client;
 
-        public EventHandler<string> ReceivedData;
+        public EventHandler<List<string>> ReceivedData;
 
         public MudClient(TcpClient client)
         {
@@ -32,7 +33,10 @@ namespace Mud.Client
                         var stream = Client.GetStream();
                         await stream.ReadAsync(bytes, 0, bytes.Length);
                         var data = Encoding.Default.GetString(bytes);
-                        ReceivedData?.Invoke(this, data);
+                        if (!string.IsNullOrEmpty(data))
+                        {
+                            ReceivedData?.Invoke(this, data.Trim().Split(' ').ToList());
+                        }
                     }
                 }
             }

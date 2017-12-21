@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mud.Data\Mud.Data.csproj" />
+    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />
   </ItemGroup>
 
 </Project>

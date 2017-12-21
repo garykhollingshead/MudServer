@@ -3,6 +3,6 @@
     public class UrlSettings
     {
         public string ServerUrl { get; set; }
-        public short ServerPort { get; set; }
+        public int ServerPort { get; set; }
     }
 }

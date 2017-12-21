@@ -204,7 +204,7 @@ namespace Mud.DataAccess.Adapters
         {
             using (var session = DocumentStore.QuerySession())
             {
-                return session.Query<T>().Where(query).ToList();
+                return session.Query<T>().Where(query)?.ToList() ?? new List<T>();
             }
         }
 

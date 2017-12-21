@@ -16,11 +16,6 @@ namespace Mud.Server
 
         public static void HandleUserPassword(User user, string data)
         {
-            if (string.IsNullOrEmpty(data))
-            {
-                user.Connection.SendData("You didn't enter a password.\nEnter you password:");
-                return;
-            }
             var password = HashPassword(data);
             if (password != user.Character.Password)
             {
@@ -38,17 +33,12 @@ namespace Mud.Server
 
         public static bool CheckUserLogin(User user, string data)
         {
-            if (string.IsNullOrEmpty(data))
-            {
-                user.Connection.SendData("No name entered.\nEnter the name you wish to be known by:");
-                return false;
-            }
             if (IsNameGood(data))
             {
-                user.Connection.SendData($"{data} is not a valid name.\nEnter the name you wish to be know by:");
-                return false;
+                return true;
             }
-            return true;
+            user.Connection.SendData($"{data} is not a valid name.\nEnter the name you wish to be know by:");
+            return false;
         }
 
         public static void HandleUserLogin(User user, Character character, string name)

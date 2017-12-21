@@ -21,7 +21,7 @@ namespace Mud.DataAccess.Repositories
 
         public Character GetCharacterByName(string name)
         {
-            return Adapter.QuerySingle<Character>(character => character.Name == name);
+            return Adapter.QueryFirstOrDefaultAsync<Character>(character => character.Name == name).GetAwaiter().GetResult();
         }
     }
 }

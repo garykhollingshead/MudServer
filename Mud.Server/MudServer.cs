@@ -19,6 +19,7 @@ namespace Mud.Server
         private CharacterRepo CharacterRepo;
 
         private TcpListener Server;
+        private CancellationTokenSource ServerCancellationTokenSource;
         private Dictionary<MudClient, User> Users;
 
         public MudServer(AppSettings appSettings)
@@ -29,11 +30,12 @@ namespace Mud.Server
 
             Server = new TcpListener(IPAddress.Parse(appSettings.UrlSettings.ServerUrl), appSettings.UrlSettings.ServerPort);
             Server.Start(10);
-            var serverCancellationToken = new CancellationToken();
-            Task.Run(() => StartListener(serverCancellationToken), serverCancellationToken);
+            ServerCancellationTokenSource = new CancellationTokenSource();
+            var token = ServerCancellationTokenSource.Token;
+            Task.Run(() => StartListener(token), token);
         }
 
-        async Task StartListener(CancellationToken cancellationToken)
+        private async Task StartListener(CancellationToken cancellationToken)
         {
             try
             {
@@ -50,34 +52,41 @@ namespace Mud.Server
             {
                 Console.WriteLine(e);
                 throw;
-            };
+            }
         }
 
-        private void ReceivedData(object sender, string data)
+        public void Shutdown()
+        {
+            ServerCancellationTokenSource.Cancel();
+        }
+
+        private void ReceivedData(object sender, List<string> data)
         {
             var client = sender as MudClient;
             var user = Users[client];
             ProcessCommand(user, data);
         }
 
-        private void ProcessCommand(User user, string data)
+        private void ProcessCommand(User user, List<string> data)
         {
             if (user.Character.CommandsAvailiable.First() == Commands.Login)
             {
-                if (!CommandProccessor.CheckUserLogin(user, data))
+                var name = data[0];
+                if (!CommandProccessor.CheckUserLogin(user, name))
                 {
                     return;
                 }
 
-                data = char.ToUpper(data[0]) + data.Substring(1).ToLower();
-                var character = CharacterRepo.GetCharacterByName(data);
+                name = char.ToUpper(name[0]) + name.Substring(1).ToLower();
+                var character = CharacterRepo.GetCharacterByName(name);
 
-                CommandProccessor.HandleUserLogin(user, character, data);
+                CommandProccessor.HandleUserLogin(user, character, name);
                 return;
             }
             if (user.Character.CommandsAvailiable.Contains(Commands.EnterPassword))
             {
-                CommandProccessor.HandleUserPassword(user, data);
+                var password = data[0];
+                CommandProccessor.HandleUserPassword(user, password);
                 return;
             }
         }
