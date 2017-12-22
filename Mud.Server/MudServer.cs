@@ -17,6 +17,7 @@ namespace Mud.Server
     public class MudServer
     {
         private CharacterRepo CharacterRepo;
+        private SplashScreenRepo SplashScreenRepo;
 
         private TcpListener Server;
         private CancellationTokenSource ServerCancellationTokenSource;
@@ -26,6 +27,7 @@ namespace Mud.Server
         {
             CommandProccessor.Secret = appSettings.AuthenticationSettings.SecretKey;
             CharacterRepo = new CharacterRepo(appSettings);
+            SplashScreenRepo = new SplashScreenRepo(appSettings);
             Users = new Dictionary<MudClient, User>();
 
             Server = new TcpListener(IPAddress.Parse(appSettings.UrlSettings.ServerUrl), appSettings.UrlSettings.ServerPort);
@@ -42,7 +44,8 @@ namespace Mud.Server
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     var client = await Server.AcceptTcpClientAsync();
-                    var mudClient = new MudClient(client);
+                    var screen = SplashScreenRepo.GetRandomSplashScreen();
+                    var mudClient = new MudClient(client, screen.Screen);
                     mudClient.ReceivedData = ReceivedData;
                     var user = new User { Character = new Character(), Connection = mudClient };
                     Users[mudClient] = user;
@@ -64,7 +67,7 @@ namespace Mud.Server
         {
             var client = sender as MudClient;
             var user = Users[client];
-            ProcessCommand(user, data);
+            Task.Run(()=> ProcessCommand(user, data));
         }
 
         private void ProcessCommand(User user, List<string> data)
@@ -72,12 +75,13 @@ namespace Mud.Server
             if (user.Character.CommandsAvailiable.First() == Commands.Login)
             {
                 var name = data[0];
+                name = char.ToUpper(name[0]) + name.Substring(1).ToLower();
+
                 if (!CommandProccessor.CheckUserLogin(user, name))
                 {
                     return;
                 }
 
-                name = char.ToUpper(name[0]) + name.Substring(1).ToLower();
                 var character = CharacterRepo.GetCharacterByName(name);
 
                 CommandProccessor.HandleUserLogin(user, character, name);

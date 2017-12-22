@@ -32,7 +32,8 @@ namespace Mud.DataAccess.Adapters
         {
             storeOptions.Connection(GetNpgsqlConnectionString(_settings.Database));
 
-            storeOptions.Schema.For<Character>().IdStrategy(new CustomdIdGeneration());
+            storeOptions.Schema.For<Character>().IdStrategy(new CustomdIdGeneration()); 
+            storeOptions.Schema.For<SplashScreen>().IdStrategy(new CustomdIdGeneration());
         }
 
         private string GetNpgsqlConnectionString(string database = "postgres")
@@ -162,33 +163,33 @@ namespace Mud.DataAccess.Adapters
             }
         }
 
-        public async Task<T> UpsertAsync<T>(T thing) where T : ModelWithIdentity
+        public T Upsert<T>(T thing) where T : ModelWithIdentity
         {
             using (var session = DocumentStore.OpenSession())
             {
                 session.Store(thing);
-                await session.SaveChangesAsync();
+                session.SaveChanges();
             }
 
             return thing;
         }
 
-        public async Task<List<T>> UpsertAsync<T>(List<T> things) where T : ModelWithIdentity
+        public List<T> Upsert<T>(List<T> things) where T : ModelWithIdentity
         {
             using (var session = DocumentStore.OpenSession())
             {
                 session.StoreObjects(things);
-                await session.SaveChangesAsync();
+                session.SaveChanges();
             }
 
             return things;
         }
 
-        public async Task<T> QueryFirstOrDefaultAsync<T>(Expression<Func<T, bool>> query) where T : ModelWithIdentity
+        public T QueryFirstOrDefault<T>(Expression<Func<T, bool>> query) where T : ModelWithIdentity
         {
             using (var session = DocumentStore.QuerySession())
             {
-                return await session.Query<T>().Where(query).FirstOrDefaultAsync();
+                return session.Query<T>().Where(query).FirstOrDefault();
             }
         }
 
@@ -208,19 +209,19 @@ namespace Mud.DataAccess.Adapters
             }
         }
 
-        public async Task<T> GetByIdAsync<T>(string id) where T : ModelWithIdentity
+        public T GetById<T>(string id) where T : ModelWithIdentity
         {
             using (var session = DocumentStore.QuerySession())
             {
-                return await session.LoadAsync<T>(id);
+                return session.Load<T>(id);
             }
         }
 
-        public async Task<List<T>> GetListByIds<T>(List<string> ids) where T : ModelWithIdentity
+        public List<T> GetListByIds<T>(List<string> ids) where T : ModelWithIdentity
         {
             using (var session = DocumentStore.QuerySession())
             {
-                return (await session.LoadManyAsync<T>(ids.ToArray())).ToList();
+                return session.LoadMany<T>(ids.ToArray()).ToList();
             }
         }
 

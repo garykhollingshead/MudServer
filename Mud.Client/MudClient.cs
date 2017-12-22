@@ -11,12 +11,14 @@ namespace Mud.Client
     public class MudClient
     {
         private TcpClient Client;
+        private string[] Screen;
 
         public EventHandler<List<string>> ReceivedData;
 
-        public MudClient(TcpClient client)
+        public MudClient(TcpClient client, string[] screen)
         {
             Client = client;
+            Screen = screen;
             var clientCancelToken = new CancellationToken();
             Task.Run(() => StartReader(clientCancelToken), clientCancelToken);
         }
@@ -25,6 +27,10 @@ namespace Mud.Client
         {
             try
             {
+                foreach (var line in Screen)
+                {
+                    SendData(line);
+                }
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     while (Client.Connected)

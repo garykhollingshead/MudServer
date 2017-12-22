@@ -31,13 +31,13 @@ namespace Mud.Server
             user.Connection.SendData("You are logged in to the world.");
         }
 
-        public static bool CheckUserLogin(User user, string data)
+        public static bool CheckUserLogin(User user, string name)
         {
-            if (IsNameGood(data))
+            if (IsNameGood(name))
             {
                 return true;
             }
-            user.Connection.SendData($"{data} is not a valid name.\nEnter the name you wish to be know by:");
+            user.Connection.SendData($"{name} is not a valid name.\nEnter the name you wish to be know by:");
             return false;
         }
 
