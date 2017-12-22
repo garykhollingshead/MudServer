@@ -68,5 +68,23 @@ namespace Mud.Client
                 throw;
             }
         }
+        public void SendData(List<string> dataSet)
+        {
+            try
+            {
+                foreach (var dataString in dataSet)
+                {
+                    var data = $"{dataString}\n";
+                    var bytes = Encoding.UTF8.GetBytes(data);
+                    var stream = Client.GetStream();
+                    stream.Write(bytes, 0, bytes.Length);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
     }
 }

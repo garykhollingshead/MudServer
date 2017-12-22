@@ -46,7 +46,7 @@ namespace Mud.Server
             if (character == null)
             {
                 user.Character.Name = name;
-                user.Character.CommandsAvailiable = new List<Commands> { Commands.ConfirmPassword };
+                user.Character.CommandsAvailiable = new List<Commands> { Commands.CreateCharacter };
                 user.Connection.SendData($"{name}. Is that the name by which you wish to be known?");
                 return;
             }
@@ -67,7 +67,7 @@ namespace Mud.Server
             return false;
         }
 
-        private static string HashPassword(string text)
+        public static string HashPassword(string text)
         {
             using (var hasher = SHA512.Create())
             {

@@ -8,14 +8,6 @@ namespace Mud.Data.Commands
     {
         Login,
         EnterPassword,
-        ConfirmPassword,
-        East, E,
-        West, W,
-        North, N,
-        South, S,
-        Northeast, Ne,
-        Southeast, Se,
-        Northwest, Nw,
-        Southwest, Sw
+        CreateCharacter
     }
 }

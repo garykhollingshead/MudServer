@@ -19,6 +19,8 @@ namespace Mud.Server
         private CharacterRepo CharacterRepo;
         private SplashScreenRepo SplashScreenRepo;
 
+        private CharacterCreationProccessor CharacterProccessor;
+
         private TcpListener Server;
         private CancellationTokenSource ServerCancellationTokenSource;
         private Dictionary<MudClient, User> Users;
@@ -28,6 +30,8 @@ namespace Mud.Server
             CommandProccessor.Secret = appSettings.AuthenticationSettings.SecretKey;
             CharacterRepo = new CharacterRepo(appSettings);
             SplashScreenRepo = new SplashScreenRepo(appSettings);
+            CharacterProccessor = new CharacterCreationProccessor(appSettings);
+
             Users = new Dictionary<MudClient, User>();
 
             Server = new TcpListener(IPAddress.Parse(appSettings.UrlSettings.ServerUrl), appSettings.UrlSettings.ServerPort);
@@ -92,6 +96,10 @@ namespace Mud.Server
                 var password = data[0];
                 CommandProccessor.HandleUserPassword(user, password);
                 return;
+            }
+            if (user.Character.CommandsAvailiable.Contains(Commands.CreateCharacter))
+            {
+                CharacterProccessor.ProcessCharacter(user, data);
             }
         }
 

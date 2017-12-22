@@ -9,7 +9,7 @@ namespace Mud.Data.Character
     public class Race : ModelWithIdentity, IRace
     {
         public string Name { get; set; }
-        public string Description { get; set; }
+        public List<string> Description { get; set; }
         public List<IStat> StartingStatsModifiers { get; set; }
     }
 }
