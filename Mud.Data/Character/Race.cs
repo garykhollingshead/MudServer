@@ -11,5 +11,9 @@ namespace Mud.Data.Character
         public string Name { get; set; }
         public List<string> Description { get; set; }
         public List<IStat> StartingStatsModifiers { get; set; }
+        public int MinHeight { get; set; }
+        public int MaxHeight { get; set; }
+        public int MinWeight { get; set; }
+        public int MaxWeight { get; set; }
     }
 }

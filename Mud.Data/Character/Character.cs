@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mud.Data.Enums;
 using Mud.Data.Interfaces;
 using Mud.Data.Persistance;
 
@@ -9,8 +10,8 @@ namespace Mud.Data.Character
         public string Name { get; set; }
         public string Password { get; set; }
         public Gender Gender { get; set; }
-        public IRace Race { get; set; }
-        public int Height { get; set; }
+        public string Race { get; set; }
+        public Height Height { get; set; }
         public int Weight { get; set; }
         public int CombatExperience { get; set; }
         public int QuestExperience { get; set; }
