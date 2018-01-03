@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Mud.Data;
 using Mud.Data.Commands;
@@ -121,11 +122,72 @@ namespace Mud.Server
                     }
                     user.Character.CurrentState = CharacterState.AddHeight;
                     var race = races.First(r => r.Name == user.Character.Race);
-                    user.Connection.SendData($"{user.Character.Gender}s of the {race.Name} are between {race.MinHeight}: ");
+                    var baseHeight = race.MinHeight;
+                    var heightInc = (race.MaxHeight - baseHeight) / 6;
+                    user.Connection.SendData($"{user.Character.Gender}s of the {race.Name} are between {baseHeight} and {baseHeight + heightInc * 6} ");
+                    user.Connection.SendData($"1.)\tVery Short ({baseHeight})");
+                    user.Connection.SendData($"2.)\tShort ({baseHeight + heightInc})");
+                    user.Connection.SendData($"3.)\tAverage Short ({baseHeight + heightInc * 2})");
+                    user.Connection.SendData($"4.)\tAverage ({baseHeight + heightInc * 3})");
+                    user.Connection.SendData($"5.)\tAverage Tall ({baseHeight + heightInc * 4})");
+                    user.Connection.SendData($"6.)\tTall ({baseHeight + heightInc * 5})");
+                    user.Connection.SendData($"7.)\tVery Tall ({baseHeight + heightInc * 6})");
+                    user.Connection.SendData("Choose your height:");
                     break;
                 case CharacterState.AddHeight:
+                    int.TryParse(baseCommand, out var heightChoice);
+                    races = RaceRepository.GetAllRaces();
+                    race = races.First(r => r.Name == user.Character.Race);
+                    if (heightChoice > 7 || heightChoice < 1)
+                    {
+                        baseHeight = race.MinHeight;
+                        heightInc = (race.MaxHeight - baseHeight) / 6;
+                        user.Connection.SendData($"\"{baseCommand}\" is not a valid choice!");
+                        user.Connection.SendData($"{user.Character.Gender}s of the {race.Name} are between {baseHeight} and {baseHeight + heightInc * 6}.");
+                        user.Connection.SendData($"1.)\tVery Short ({baseHeight})");
+                        user.Connection.SendData($"2.)\tShort ({baseHeight + heightInc})");
+                        user.Connection.SendData($"3.)\tAverage Short ({baseHeight + heightInc * 2})");
+                        user.Connection.SendData($"4.)\tAverage ({baseHeight + heightInc * 3})");
+                        user.Connection.SendData($"5.)\tAverage Tall ({baseHeight + heightInc * 4})");
+                        user.Connection.SendData($"6.)\tTall ({baseHeight + heightInc * 5})");
+                        user.Connection.SendData($"7.)\tVery Tall ({baseHeight + heightInc * 6})");
+                        user.Connection.SendData("Choose your height:");
+                        return;
+                    }
+                    user.Character.CurrentState = CharacterState.AddWeight;
+                    var baseWeight = race.MinWeight;
+                    var weightInc = (race.MaxWeight - baseWeight) / 6;
+                    user.Connection.SendData($"{user.Character.Gender}s of the {race.Name} are between {baseWeight} lbs and {baseWeight + weightInc * 6} lbs.");
+                    user.Connection.SendData($"1.)\t {baseWeight} lbs");
+                    user.Connection.SendData($"2.)\t {baseWeight + weightInc} lbs");
+                    user.Connection.SendData($"3.)\t {baseWeight + weightInc * 2} lbs");
+                    user.Connection.SendData($"4.)\t {baseWeight + weightInc * 3} lbs");
+                    user.Connection.SendData($"5.)\t {baseWeight + weightInc * 4} lbs");
+                    user.Connection.SendData($"6.)\t {baseWeight + weightInc * 5} lbs");
+                    user.Connection.SendData($"7.)\t {baseWeight + weightInc * 6} lbs");
+                    user.Connection.SendData("Choose your weight:");
                     break;
                 case CharacterState.AddWeight:
+                    int.TryParse(baseCommand, out var weightChoice);
+                    races = RaceRepository.GetAllRaces();
+                    race = races.First(r => r.Name == user.Character.Race);
+                    if (weightChoice > 7 || weightChoice < 1)
+                    {
+                        baseWeight = race.MinWeight;
+                        weightInc = (race.MaxWeight - baseWeight) / 6;
+                        user.Connection.SendData($"{user.Character.Gender}s of the {race.Name} are between {baseWeight} lbs and {baseWeight + weightInc * 6} lbs.");
+                        user.Connection.SendData($"1.)\t {baseWeight} lbs");
+                        user.Connection.SendData($"2.)\t {baseWeight + weightInc} lbs");
+                        user.Connection.SendData($"3.)\t {baseWeight + weightInc * 2} lbs");
+                        user.Connection.SendData($"4.)\t {baseWeight + weightInc * 3} lbs");
+                        user.Connection.SendData($"5.)\t {baseWeight + weightInc * 4} lbs");
+                        user.Connection.SendData($"6.)\t {baseWeight + weightInc * 5} lbs");
+                        user.Connection.SendData($"7.)\t {baseWeight + weightInc * 6} lbs");
+                        user.Connection.SendData("Choose your weight:");
+                        return;
+                    }
+                    user.Character.CurrentState = CharacterState.ChooseStats;
+
                     break;
                 case CharacterState.ChooseStats:
                     break;
